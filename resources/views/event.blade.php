@@ -13,18 +13,15 @@
     <!-- Header -->
     <header class="bg-white shadow-md py-4 fixed w-full z-10">
         <div class="container mx-auto flex justify-between items-center px-4">
-            <!-- Logo -->
             <div class="flex items-center space-x-4">
                 <img src="assets/logo-kemendag.png" alt="Logo" class="h-10">
             </div>
-            <!-- Hamburger Button -->
             <button id="hamburger" class="md:hidden focus:outline-none">
                 <svg class="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
-            <!-- Navigation Menu -->
             <nav id="nav-menu"
                 class="hidden md:flex md:items-center md:space-x-4 absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none p-4 md:p-0">
                 <a href="{{ url('/#home') }}" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Beranda</a>
