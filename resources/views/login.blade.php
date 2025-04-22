@@ -55,20 +55,38 @@
         <div class="container mx-auto px-4">
             <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">Masuk ke Akun Anda</h2>
-                <div class="space-y-6">
+                
+                @if(session('message'))
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span class="block sm:inline">{{ session('message') }}</span>
+                </div>
+                @endif
+                
+                <form method="POST" action="{{ route('login.post') }}" class="space-y-6">
+                    @csrf
                     <div>
                         <label for="email" class="block text-gray-600 mb-2">Email</label>
-                        <input type="email" id="email" placeholder="Masukkan email Anda" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <input type="email" id="email" name="email" placeholder="Masukkan email Anda" 
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 @error('email') border-red-500 @enderror" 
+                            value="{{ old('email') }}" required>
+                        @error('email')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div>
                         <label for="password" class="block text-gray-600 mb-2">Kata Sandi</label>
-                        <input type="password" id="password" placeholder="Masukkan kata sandi Anda" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                        <input type="password" id="password" name="password" placeholder="Masukkan kata sandi Anda" 
+                            class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600 @error('password') border-red-500 @enderror" 
+                            required>
+                        @error('password')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="flex justify-end">
                         <a href="#" class="text-blue-600 hover:underline text-sm">Lupa Kata Sandi?</a>
                     </div>
-                    <button class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-300">Masuk</button>
-                </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-300">Masuk</button>
+                </form>
                 <p class="mt-6 text-center text-gray-600">
                     Belum punya akun? <a href="/regis" class="text-blue-600 hover:underline">Daftar sekarang</a>
                 </p>
@@ -125,3 +143,5 @@
             </div>
         </div>
     </footer>
+</body>
+</html>
