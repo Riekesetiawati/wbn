@@ -235,34 +235,6 @@
             </div>
         </section>
 
-        <section class="bg-white py-10">
-        <div class="container mx-auto px-4">
-            <h2 class="text-xl md:text-2xl font-bold text-center mb-6">Kriteria Peserta</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-6">
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <h3 class="font-bold">Nilai & Budaya Sehat (UK, CO, PT)</h3>
-                    <p>Koperasi yang sehat secara organisasi dan finansial.</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <h3 class="font-bold">Kapasitas Produksi</h3>
-                    <p>Memiliki kapasitas produksi yang mendukung.</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <h3 class="font-bold">Komitmen Tahunan</h3>
-                    <p>Memiliki komitmen untuk mengikuti program selama 1 tahun.</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <h3 class="font-bold">Pengalaman Bisnis</h3>
-                    <p>Memiliki pengalaman bisnis minimal 1 tahun.</p>
-                </div>
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <h3 class="font-bold">Kemampuan</h3>
-                    <p>Memiliki kemampuan berbahasa Inggris dan mengoperasikan komputer.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
         <!-- Carousel Section -->
         <section class="py-10 bg-white">
             <div class="container mx-auto px-4 bg-white">
