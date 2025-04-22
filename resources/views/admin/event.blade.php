@@ -59,7 +59,7 @@
                             <td>{{ \Carbon\Carbon::parse($event->date)->format('Y-m-d') }}</td>
                             <td>{{ $event->location }}</td>
                             <td>
-                                <a href="" class="btn btn-success">
+                                <a href="{{route('events.participants', $event->id)}}" class="btn btn-success">
                                     <i class="fas fa-user"></i>
 
                                 </a>
