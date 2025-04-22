@@ -29,7 +29,17 @@
                 <a href="#about" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Tentang Kami</a>
                 <a href="#articles" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Artikel</a>
                 <a href="#contact" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Kontak</a>
-                <a href="/login"
+                @if (Auth::check())
+                <a href="/logout"
+                class="inline-flex items-center gap-2 px-4 py-2 bg-red-600 text-white font-medium rounded-full shadow hover:bg-red-700 hover:shadow-lg transition duration-300 ease-in-out">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                Logout
+            </a>
+            @else
+            <a href="/login"
                     class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-medium rounded-full shadow hover:bg-blue-700 hover:shadow-lg transition duration-300 ease-in-out">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -37,6 +47,7 @@
                     </svg>
                     Login
                 </a>
+                @endif
             </nav>
         </div>
     </header>
@@ -61,9 +72,7 @@
                             <div class="md:w-1/2 z-10">
                                 <h1 class="text-4xl md:text-6xl font-bold text-gray-800 leading-tight" x-html="slide.title"></h1>
                                 <p class="mt-4 text-gray-600 max-w-md" x-text="slide.desc"></p>
-                                <a href="/login" class="inline-block mt-6 bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition duration-300">
-                                    Login
-                                </a>
+                               
                             </div>
                             <div class="w-full md:w-1/2">
                                 <img :src="slide.image" alt="Slide Image" class="object-contain w-full h-[300px] md:h-[400px] rounded-xl">
@@ -133,29 +142,25 @@
     <section id="events" class="py-16 bg-gray-100">
         <div class="container mx-auto px-4">
             <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-12">Acara Mendatang</h2>
+            
+            @if(isset($events) && $events !== null && $events->count() > 0)
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                @foreach($events as $event)
                 <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
-                    <img src="assets/image_hero.png" alt="Event 1" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Workshop Ekspor 101</h3>
-                    <p class="text-gray-600 mb-4">Pelajari dasar-dasar ekspor dan strategi masuk pasar global.</p>
-                    <p class="text-blue-600 font-semibold">10 Mei 2025 | Jakarta</p>
-                    <a href="#" class="inline-block mt-4 text-blue-600 hover:underline">Daftar Sekarang</a>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
-                    <img src="assets/image_hero.png" alt="Event 2" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Seminar Digital Marketing</h3>
-                    <p class="text-gray-600 mb-4">Kuasai strategi pemasaran digital untuk menjangkau pasar internasional.</p>
-                    <p class="text-blue-600 font-semibold">15 Juni 2025 | Surabaya</p>
-                    <a href="#" class="inline-block mt-4 text-blue-600 hover:underline">Daftar Sekarang</a>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow-lg transform hover:scale-105 transition duration-300">
-                    <img src="assets/image_hero.png" alt="Event 3" class="w-full h-48 object-cover rounded-lg mb-4">
-                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Pameran Produk UMKM</h3>
-                    <p class="text-gray-600 mb-4">Pamerkan produk Anda kepada pembeli internasional.</p>
-                    <p class="text-blue-600 font-semibold">20 Juli 2025 | Bali</p>
-                    <a href="#" class="inline-block mt-4 text-blue-600 hover:underline">Daftar Sekarang</a>
-                </div>
+                    <img src="{{ asset('storage/'. $event->image) }}" alt="{{ $event->title }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $event->title }}</h3>
+                    <p class="text-gray-600 mb-4">{{ $event->description }}</p>
+                    <p class="text-blue-600 font-semibold">{{ date('d F Y', strtotime($event->date)) }} | {{ $event->location }}</p>
+                    <a href="{{ route('events.show', $event->id) }}" class="inline-block mt-4 text-blue-600 hover:underline">Daftar Sekarang</a>                </div>
+                @endforeach
             </div>
+            @else
+            <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                <i class="fas fa-calendar-times text-gray-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Belum Ada Acara</h3>
+                <p class="text-gray-600">Saat ini belum ada acara mendatang yang terjadwal. Silakan kunjungi kembali halaman ini nanti.</p>
+            </div>
+            @endif
         </div>
     </section>
 
@@ -163,34 +168,24 @@
     <section id="articles" class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <h2 class="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-12">Artikel Terbaru</h2>
+            
+            @if(isset($articles) && $articles !== null && $articles->count() > 0)
             <div class="relative overflow-hidden">
                 <div class="carousel flex transition-transform duration-500 ease-in-out" id="articles-carousel">
+                    @foreach($articles as $article)
                     <div class="carousel-item flex-shrink-0 w-full px-3">
                         <div class="bg-white p-6 rounded-lg shadow-lg">
-                            <img src="assets/image_hero.png" alt="Article 1" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Tips Sukses Ekspor untuk UMKM</h3>
-                            <p class="text-gray-600">Pelajari strategi kunci untuk memulai ekspor dengan sukses.</p>
+                            <img src="{{ asset('storage/'. $article->image) }}" alt="{{ $article->title }}" class="w-full h-48 object-cover rounded-lg mb-4">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $article->title }}</h3>
+                            <p class="text-gray-600">{{ Str::limit($article->description, 100) }}</p>
                             <a href="#" class="inline-block mt-4 text-blue-600 hover:underline">Baca Selengkapnya</a>
                         </div>
                     </div>
-                    <div class="carousel-item flex-shrink-0 w-full px-3">
-                        <div class="bg-white p-6 rounded-lg shadow-lg">
-                            <img src="assets/image_hero.png" alt="Article 2" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Peluang Pasar di ASEAN</h3>
-                            <p class="text-gray-600">Temukan peluang ekspor di pasar ASEAN yang berkembang pesat.</p>
-                            <a href="#" class="inline-block mt-4 text-blue-600 hover:underline">Baca Selengkapnya</a>
-                        </div>
-                    </div>
-                    <div class="carousel-item flex-shrink-0 w-full px-3">
-                        <div class="bg-white p-6 rounded-lg shadow-lg">
-                            <img src="assets/image_hero.png" alt="Article 3" class="w-full h-48 object-cover rounded-lg mb-4">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-2">Manfaat Sertifikasi Ekspor</h3>
-                            <p class="text-gray-600">Pahami pentingnya sertifikasi untuk keberlanjutan ekspor.</p>
-                            <a href="#" class="inline-block mt-4 text-blue-600 hover:underline">Baca Selengkapnya</a>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
+                
                 <!-- Carousel Controls -->
+                @if($articles->count() > 1)
                 <button id="prev-slide" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -201,7 +196,15 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                 </button>
+                @endif
             </div>
+            @else
+            <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                <i class="fas fa-newspaper text-gray-400 text-5xl mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-700 mb-2">Belum Ada Artikel</h3>
+                <p class="text-gray-600">Saat ini belum ada artikel yang dipublikasikan. Silakan kunjungi kembali halaman ini nanti untuk membaca konten terbaru.</p>
+            </div>
+            @endif
         </div>
     </section>
 
@@ -296,42 +299,61 @@
 
     <!-- JavaScript for Articles Carousel -->
     <script>
-        const slides = document.querySelectorAll('#articles-carousel .carousel-item');
-        const carousel = document.getElementById('articles-carousel');
-        const prevButton = document.getElementById('prev-slide');
-        const nextButton = document.getElementById('next-slide');
-        let currentSlide = 0;
+        document.addEventListener('DOMContentLoaded', function() {
+            const carousel = document.getElementById('articles-carousel');
+            if (!carousel) return;
+            
+            const slides = document.querySelectorAll('#articles-carousel .carousel-item');
+            if (slides.length <= 1) return;
+            
+            const prevButton = document.getElementById('prev-slide');
+            const nextButton = document.getElementById('next-slide');
+            if (!prevButton || !nextButton) return;
+            
+            let currentSlide = 0;
 
-        function showSlide(index) {
-            if (index >= slides.length) {
-                currentSlide = 0;
-            } else if (index < 0) {
-                currentSlide = slides.length - 1;
-            } else {
-                currentSlide = index;
+            function showSlide(index) {
+                if (index >= slides.length) {
+                    currentSlide = 0;
+                } else if (index < 0) {
+                    currentSlide = slides.length - 1;
+                } else {
+                    currentSlide = index;
+                }
+                const slideWidth = slides[0].offsetWidth;
+                carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
             }
-            const slideWidth = slides[0].offsetWidth;
-            carousel.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-        }
 
-        prevButton.addEventListener('click', () => {
-            showSlide(currentSlide - 1);
-        });
+            prevButton.addEventListener('click', () => {
+                showSlide(currentSlide - 1);
+            });
 
-        nextButton.addEventListener('click', () => {
-            showSlide(currentSlide + 1);
-        });
+            nextButton.addEventListener('click', () => {
+                showSlide(currentSlide + 1);
+            });
 
-        // Auto-slide for articles carousel
-        setInterval(() => {
-            showSlide(currentSlide + 1);
-        }, 5000);
+            // Auto-slide for articles carousel
+            let autoSlideInterval = setInterval(() => {
+                showSlide(currentSlide + 1);
+            }, 5000);
 
-        window.addEventListener('resize', () => {
-            showSlide(currentSlide);
-        });
+            // Pause auto-slide when interacting with carousel
+            [prevButton, nextButton].forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    clearInterval(autoSlideInterval);
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    autoSlideInterval = setInterval(() => {
+                        showSlide(currentSlide + 1);
+                    }, 5000);
+                });
+            });
 
-        window.addEventListener('load', () => {
+            window.addEventListener('resize', () => {
+                showSlide(currentSlide);
+            });
+
             showSlide(0);
         });
     </script>

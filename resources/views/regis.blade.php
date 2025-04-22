@@ -28,14 +28,6 @@
                 <a href="{{ url('/#about') }}" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Tentang Kami</a>
                 <a href="{{ url('/#articles') }}" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Artikel</a>
                 <a href="{{ url('/#contact') }}" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Kontak</a>
-                <a href="/login"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-medium rounded-full shadow hover:bg-blue-700 hover:shadow-lg transition duration-300 ease-in-out">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    Login
-                </a>
             </nav>
         </div>
     </header>
@@ -55,29 +47,53 @@
         <div class="container mx-auto px-4">
             <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">Daftar Akun Baru</h2>
-                <div class="space-y-6">
-                    <div>
-                        <label for="full_name" class="block text-gray-600 mb-2">Nama Lengkap</label>
-                        <input type="text" id="full_name" placeholder="Masukkan nama lengkap Anda" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                <form action="{{route('register.post')}}" method="POST">
+                    @csrf
+                    <div class="space-y-6">
+                        <div>
+                            <label for="name" class="block text-gray-600 mb-2">Nama Lengkap</label>
+                            <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap Anda" class="w-full p-3 border @error('name') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('name')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-gray-600 mb-2">Nomor Telepon</label>
+                            <input type="tel" id="phone" name="phone" value="{{ old('phone') }}" placeholder="Masukkan nomor telepon Anda" class="w-full p-3 border @error('phone') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('phone')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-600 mb-2">Email</label>
+                            <input type="email" id="email" name="email" value="{{ old('email') }}" placeholder="Masukkan email Anda" class="w-full p-3 border @error('email') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('email')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="password" class="block text-gray-600 mb-2">Kata Sandi</label>
+                            <input type="password" id="password" name="password" placeholder="Masukkan kata sandi Anda" class="w-full p-3 border @error('password') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('password')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
+                            <label for="password_confirmation" class="block text-gray-600 mb-2">Konfirmasi Kata Sandi</label>
+                            <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Konfirmasi kata sandi Anda" class="w-full p-3 border @error('password_confirmation') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('password_confirmation')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <button class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-300">Daftar</button>
                     </div>
-                    <div>
-                        <label for="phone_number" class="block text-gray-600 mb-2">Nomor Telepon</label>
-                        <input type="tel" id="phone_number" placeholder="Masukkan nomor telepon Anda" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                </form>
+                
+                @if(session('success'))
+                    <div class="mt-4 p-3 bg-green-100 text-green-700 rounded">
+                        {{ session('success') }}
                     </div>
-                    <div>
-                        <label for="email" class="block text-gray-600 mb-2">Email</label>
-                        <input type="email" id="email" placeholder="Masukkan email Anda" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div>
-                        <label for="password" class="block text-gray-600 mb-2">Kata Sandi</label>
-                        <input type="password" id="password" placeholder="Masukkan kata sandi Anda" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <div>
-                        <label for="password_confirmation" class="block text-gray-600 mb-2">Konfirmasi Kata Sandi</label>
-                        <input type="password" id="password_confirmation" placeholder="Konfirmasi kata sandi Anda" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
-                    </div>
-                    <button class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-300">Daftar</button>
-                </div>
+                @endif
                 <p class="mt-6 text-center text-gray-600">
                     Sudah punya akun? <a href="/login" class="text-blue-600 hover:underline">Masuk sekarang</a>
                 </p>

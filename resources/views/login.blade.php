@@ -28,14 +28,6 @@
                 <a href="{{ url('/#about') }}" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Tentang Kami</a>
                 <a href="{{ url('/#articles') }}" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Artikel</a>
                 <a href="{{ url('/#contact') }}" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Kontak</a>
-                <a href="/login"
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-medium rounded-full shadow hover:bg-blue-700 hover:shadow-lg transition duration-300 ease-in-out">
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                    </svg>
-                    Login
-                </a>
             </nav>
         </div>
     </header>
@@ -55,7 +47,11 @@
         <div class="container mx-auto px-4">
             <div class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-6 text-center">Masuk ke Akun Anda</h2>
-                
+                @if(session('success'))
+<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+    <span class="block sm:inline">{{ session('success') }}</span>
+</div>
+@endif
                 @if(session('message'))
                 <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <span class="block sm:inline">{{ session('message') }}</span>
@@ -88,7 +84,7 @@
                     <button type="submit" class="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition duration-300">Masuk</button>
                 </form>
                 <p class="mt-6 text-center text-gray-600">
-                    Belum punya akun? <a href="/regis" class="text-blue-600 hover:underline">Daftar sekarang</a>
+                    Belum punya akun? <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Daftar sekarang</a>
                 </p>
             </div>
         </div>

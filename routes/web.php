@@ -1,23 +1,21 @@
 <?php
 
-use App\Http\Controllers\admin\ArticleController as AdminArticleController;
-use App\Http\Controllers\admin\EventController as AdminEventController;
-use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\admin\EventController as AdminEventController;
+use App\Http\Controllers\admin\ArticleController as AdminArticleController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\ParticipantController;
 
-Route::get('/', function () {
-    return view('home');
-});
-Route::get('/event', function () {
-    return view('event');
-});
 Route::get('/article', function () {
     return view('article');
 });
-Route::get('/regis', function () {
-    return view('regis');
-});
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/event/{event}', [EventController::class, 'show'])->name('events.show');
+Route::post('/register-event', [ParticipantController::class, "registerEvent"])->middleware('auth')->name('register.event');
 
 Route::prefix('admin')->group(function () {
     Route::get('/event', [AdminEventController::class, 'index'])->name('admin.event.index');
@@ -39,5 +37,7 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::get('/login', [AuthController::class, 'index'])->middleware('guest')->name('login');
+Route::get('/register', [AuthController::class, 'register'])->middleware('guest')->name('register');
 Route::post('/login', [AuthController::class, 'login'])->middleware('guest')->name('login.post');
+Route::post('/register', [AuthController::class, 'postRegister'])->middleware('guest')->name('register.post');
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
