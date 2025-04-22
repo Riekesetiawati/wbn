@@ -14,7 +14,7 @@ Route::get('/article', function () {
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/event/{event}', [EventController::class, 'show'])->name('events.show');
+Route::get('/event/{event}', [EventController::class, 'show'])->name('events.show')->middleware('auth');
 Route::post('/register-event', [ParticipantController::class, "registerEvent"])->middleware('auth')->name('register.event');
 
 Route::prefix('admin')->group(function () {

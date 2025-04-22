@@ -107,9 +107,10 @@
                             <form action="{{route('register.event')}}" method="POST" id="registerEventForm">
                                 @csrf
                                 <input type="hidden" name="event_id" value="{{$event->id}}" id="">
-                                <button class="inline-block bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition duration-300">Daftar Event</button>
+                                <button type="button" id="showConfirmButton" class="inline-block bg-blue-600 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-blue-700 transition duration-300">Daftar Event</button>
                             </form>
                         </div>
+            
                         <div id="successAlert" class="hidden fixed top-20 right-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-md z-50" role="alert">
                             <div class="flex items-center">
                                 <div class="py-1"><svg class="fill-current h-6 w-6 text-green-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
@@ -133,7 +134,28 @@
                         </div>
                     </div>
                 </div>
-                
+                <div id="confirmationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="bg-white rounded-lg p-6 shadow-xl max-w-md w-full mx-4">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Konfirmasi Pendaftaran</h3>
+                        <p class="text-gray-600 mb-6">Apakah Anda yakin ingin mendaftar pada event ini?</p>
+                        <div class="flex justify-end space-x-4">
+                            <button id="cancelButton" class="px-4 py-2 bg-gray-300 text-gray-800 rounded-md hover:bg-gray-400 transition-colors">
+                                Batal
+                            </button>
+                            <button id="confirmButton" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+                                Ya, Daftar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Loading Spinner Modal -->
+                <div id="loadingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                    <div class="bg-white rounded-lg p-8 shadow-xl flex flex-col items-center">
+                        <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mb-4"></div>
+                        <p class="text-gray-700">Sedang memproses pendaftaran...</p>
+                    </div>
+                </div>
                 <!-- Location Map -->
                 <!-- Location Map -->
 <div class="mt-10">
@@ -245,7 +267,7 @@
     </footer>
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+     document.addEventListener('DOMContentLoaded', function() {
         // Display flash messages if they exist
         @if(session('success'))
             showAlert('successAlert', '{{ session('success') }}');
@@ -255,12 +277,33 @@
             showAlert('errorAlert', '{{ session('error') }}');
         @endif
 
-        // Set up form submission
+        // Get DOM elements
         const form = document.getElementById('registerEventForm');
+        const showConfirmButton = document.getElementById('showConfirmButton');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const confirmButton = document.getElementById('confirmButton');
+        const cancelButton = document.getElementById('cancelButton');
+        const loadingModal = document.getElementById('loadingModal');
         
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Show confirmation modal
+        showConfirmButton.addEventListener('click', function() {
+            confirmationModal.classList.remove('hidden');
+        });
+        
+        // Hide modal on cancel
+        cancelButton.addEventListener('click', function() {
+            confirmationModal.classList.add('hidden');
+        });
+        
+        // Confirm and submit form
+        confirmButton.addEventListener('click', function() {
+            // Hide confirmation modal
+            confirmationModal.classList.add('hidden');
             
+            // Show loading spinner
+            loadingModal.classList.remove('hidden');
+            
+            // Process form submission
             fetch(form.action, {
                 method: 'POST',
                 body: new FormData(form),
@@ -270,6 +313,10 @@
             })
             .then(response => response.json())
             .then(data => {
+                // Hide loading spinner
+                loadingModal.classList.add('hidden');
+                
+                // Show appropriate alert
                 if (data.status === 'success') {
                     showAlert('successAlert', data.message);
                 } else {
@@ -277,6 +324,10 @@
                 }
             })
             .catch(error => {
+                // Hide loading spinner
+                loadingModal.classList.add('hidden');
+                
+                // Show error alert
                 showAlert('errorAlert', 'Terjadi kesalahan. Silahkan coba lagi.');
                 console.error('Error:', error);
             });
@@ -300,5 +351,12 @@
         const alert = document.getElementById(alertId);
         alert.classList.add('hidden');
     }
+    
+    // Close modal if user clicks outside
+    window.addEventListener('click', function(event) {
+        if (event.target === confirmationModal) {
+            confirmationModal.classList.add('hidden');
+        }
+    });
 </script>
 </html>
