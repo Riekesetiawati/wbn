@@ -59,6 +59,10 @@
                             <td>{{ \Carbon\Carbon::parse($event->date)->format('Y-m-d') }}</td>
                             <td>{{ $event->location }}</td>
                             <td>
+                                <a href="" class="btn btn-success">
+                                    <i class="fas fa-user"></i>
+
+                                </a>
                                 <button class="btn btn-sm btn-info view-event" data-bs-toggle="modal" data-bs-target="#viewEventModal" 
                                     data-id="{{ $event->id }}"
                                     data-title="{{ $event->title }}"

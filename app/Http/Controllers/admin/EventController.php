@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Event;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
@@ -111,4 +112,16 @@ class EventController extends Controller
         return redirect()->route('admin.event.index')
             ->with('success', 'Event berhasil dihapus!');
     }
+
+    public function showParticipants($event_id)
+{
+    // Cari event berdasarkan ID
+    $event = Event::with('participants')->findOrFail($event_id);
+    
+    // Mengakses participants melalui relasi
+    $participants = $event->participants;
+    
+    // Mengirim data ke view
+    return view('admin.participant-event', compact('event', 'participants'));
+}
 }

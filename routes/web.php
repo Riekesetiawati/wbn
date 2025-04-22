@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\EventController as AdminEventController;
 use App\Http\Controllers\admin\ArticleController as AdminArticleController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ParticipantController;
+use App\Http\Middleware\AdminMiddleware;
 
 Route::get('/article', function () {
     return view('article');
@@ -17,7 +18,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/event/{event}', [EventController::class, 'show'])->name('events.show')->middleware('auth');
 Route::post('/register-event', [ParticipantController::class, "registerEvent"])->middleware('auth')->name('register.event');
 
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware(AdminMiddleware::class)->group(function () {
     Route::get('/event', [AdminEventController::class, 'index'])->name('admin.event.index');
     Route::get('/event/create', [AdminEventController::class, 'create'])->name('admin.event.create');
     Route::post('/event', [AdminEventController::class, 'store'])->name('admin.event.store');
@@ -25,6 +26,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/event/{event}/edit', [AdminEventController::class, 'edit'])->name('admin.event.edit');
     Route::put('/event/{event}', [AdminEventController::class, 'update'])->name('admin.event.update');
     Route::delete('/event/{event}', [AdminEventController::class, 'destroy'])->name('admin.event.destroy');
+    Route::get('/event/{event}/participants', [AdminEventController::class, 'showParticipants'])->name('events.participants');
 
 
     Route::get('/article', [AdminArticleController::class, 'index'])->name('admin.article.index');

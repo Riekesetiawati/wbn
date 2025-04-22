@@ -25,6 +25,12 @@ class User extends Authenticatable
         'phone'
     ];
 
+    public function events()
+{
+    return $this->belongsToMany(Event::class, 'event_participants', 'user_id', 'event_id')
+                ->using(EventParticipant::class);
+}
+
     /**
      * The attributes that should be hidden for serialization.
      *

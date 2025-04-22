@@ -37,13 +37,13 @@
             <div class="d-flex flex-column h-100">
                 <ul class="navbar-nav flex-grow-1" id="d2c_Sidebar">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">
+                        <a class="nav-link" href="{{ route('admin.event.index') }}">
                             <i class="fas fa-home me-2"></i>
                             <span>Event</span>
                         </a>
                     </li>      
                     <li class="nav-item">
-                        <a class="nav-link" href="">
+                        <a class="nav-link" href="{{ route('admin.article.index') }}">
                             <i class="fas fa-book me-2"></i>
                             <span>Article</span>
                         </a>
