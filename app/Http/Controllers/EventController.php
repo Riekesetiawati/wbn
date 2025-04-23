@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CompanyExport;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -30,7 +31,9 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         $relatedEvents = Event::where('id', '!=', $id)->latest()->take(3)->get();
-        return view('event', compact('event', 'relatedEvents'));
+        $company = CompanyExport::where('event_id', $id)->get();
+        $participantCount = $event->participants()->count();
+        return view('event', compact('event', 'relatedEvents', 'company', 'participantCount'));
     }
 
     /**

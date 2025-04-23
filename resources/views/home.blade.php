@@ -178,7 +178,7 @@
                             <img src="{{ asset('storage/'. $article->image) }}" alt="{{ $article->title }}" class="w-full h-48 object-cover rounded-lg mb-4">
                             <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $article->title }}</h3>
                             <p class="text-gray-600">{{ Str::limit($article->description, 100) }}</p>
-                            <a href="#" class="inline-block mt-4 text-blue-600 hover:underline">Baca Selengkapnya</a>
+                            <a href="{{route('article', $article->id)}}" class="inline-block mt-4 text-blue-600 hover:underline">Baca Selengkapnya</a>
                         </div>
                     </div>
                     @endforeach

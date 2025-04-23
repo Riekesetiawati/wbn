@@ -48,6 +48,7 @@
                             <th>Judul</th>
                             <th>Tanggal</th>
                             <th>Lokasi</th>
+                            <th>Angkatan ECP</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -58,7 +59,11 @@
                             <td>{{ $event->title }}</td>
                             <td>{{ \Carbon\Carbon::parse($event->date)->format('Y-m-d') }}</td>
                             <td>{{ $event->location }}</td>
+                            <td>{{ $event->angkatan_ecp }}</td>
                             <td>
+                                <a href="{{ route('admin.company.index', $event->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-building"></i>
+                                </a>
                                 <a href="{{ route('events.participants', $event->id) }}" class="btn btn-success btn-sm">
                                     <i class="fas fa-user"></i>
                                 </a>
@@ -69,6 +74,7 @@
                                     data-date="{{ \Carbon\Carbon::parse($event->date)->format('F d, Y') }}"
                                     data-location="{{ $event->location }}"
                                     data-location-url="{{ $event->location_url }}"
+                                    data-angkatan-ecp="{{ $event->angkatan_ecp }}"
                                     data-image="{{ asset('storage/' . $event->image) }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
@@ -79,6 +85,7 @@
                                     data-date="{{ $event->date }}"
                                     data-location="{{ $event->location }}"
                                     data-location-url="{{ $event->location_url }}"
+                                    data-angkatan-ecp="{{ $event->angkatan_ecp }}"
                                     data-image="{{ asset('storage/' . $event->image) }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -91,7 +98,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="text-center">Tidak ada event ditemukan</td>
+                            <td colspan="6" class="text-center">Tidak ada event ditemukan</td>
                         </tr>
                         @endforelse
                     </tbody>
@@ -156,6 +163,13 @@
                         @enderror
                     </div>
                     <div class="mb-3">
+                        <label for="angkatan_ecp" class="form-label">Angkatan ECP</label>
+                        <input type="number" name="angkatan_ecp" class="form-control" id="angkatan_ecp" value="{{ old('angkatan_ecp') }}">
+                        @error('angkatan_ecp')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
                         <label for="image" class="form-label">Gambar Event</label>
                         <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" required>
                         <div class="form-text">Unggah gambar untuk event (ukuran disarankan: 1200x600px)</div>
@@ -188,7 +202,8 @@
                 <h3 id="view_title"></h3>
                 <div class="d-flex my-3">
                     <div class="me-4"><i class="far fa-calendar-alt"></i> <span id="view_date"></span></div>
-                    <div><i class="fas fa-map-marker-alt"></i> <span id="view_location"></span></div>
+                    <div class="me-4"><i class="fas fa-map-marker-alt"></i> <span id="view_location"></span></div>
+                    <div><i class="fas fa-users"></i> Angkatan ECP: <span id="view_angkatan_ecp"></span></div>
                 </div>
                 <div id="view_description"></div>
                 <div class="mt-3">
@@ -250,6 +265,13 @@
                         <textarea class="form-control @error('location_url') is-invalid @enderror" id="edit_location_url_input" rows="4" placeholder="Tempel kode iframe dari Google Maps"></textarea>
                         <input type="hidden" name="location_url" id="edit_location_url_hidden">
                         @error('location_url')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_angkatan_ecp" class="form-label">Angkatan ECP</label>
+                        <input type="number" name="angkatan_ecp" class="form-control" id="edit_angkatan_ecp">
+                        @error('angkatan_ecp')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -356,11 +378,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const date = this.getAttribute('data-date');
             const location = this.getAttribute('data-location');
             const locationUrl = this.getAttribute('data-location-url');
+            const angkatanEcp = this.getAttribute('data-angkatan-ecp');
             const image = this.getAttribute('data-image');
             
             document.getElementById('view_title').textContent = title;
             document.getElementById('view_date').textContent = date;
             document.getElementById('view_location').textContent = location;
+            document.getElementById('view_angkatan_ecp').textContent = angkatanEcp;
             document.getElementById('view_description').innerHTML = description;
             document.getElementById('view_image').src = image;
             document.getElementById('view_location_map').src = locationUrl || '';
@@ -377,6 +401,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const date = this.getAttribute('data-date');
             const location = this.getAttribute('data-location');
             const locationUrl = this.getAttribute('data-location-url');
+            const angkatanEcp = this.getAttribute('data-angkatan-ecp');
             const image = this.getAttribute('data-image');
             
             document.getElementById('editEventForm').action = `/admin/event/${id}`;
@@ -384,6 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('edit_description').value = description;
             document.getElementById('edit_date').value = date;
             document.getElementById('edit_location').value = location;
+            document.getElementById('edit_angkatan_ecp').value = angkatanEcp;
             document.getElementById('edit_location_url_input').value = locationUrl ? `<iframe src="${locationUrl}"></iframe>` : '';
             document.getElementById('edit_location_url_hidden').value = locationUrl;
             document.getElementById('current_image').src = image;

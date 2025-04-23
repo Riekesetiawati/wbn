@@ -87,7 +87,7 @@
                     <!-- Angkatan ECP -->
                     <div class="group cursor-pointer stats-card w-full md:w-1/3" onclick="handleClick('angkatan')">
                         <div class="bg-white py-12 px-6 mx-2 md:mx-2 rounded-2xl group-hover:bg-blue-900 transition-colors duration-300">
-                            <h3 class="text-4xl md:text-5xl font-bold text-blue-900 group-hover:text-white counter" data-target="74">0</h3>
+                            <h3 class="text-4xl md:text-5xl font-bold text-blue-900 group-hover:text-white counter" data-target="{{$event->angkatan_ecp}}">0</h3>
                             <p class="text-sm group-hover:text-white mt-2">Angkatan ECP</p>
                         </div>
                     </div>
@@ -95,7 +95,7 @@
                     <!-- Peserta ECP -->
                     <div class="group cursor-pointer stats-card w-full md:w-1/3" onclick="handleClick('peserta')">
                         <div class="bg-white py-12 px-6 mx-2 md:mx-2 rounded-2xl transition-colors duration-300">
-                            <h3 class="text-4xl md:text-5xl font-bold text-blue-900 transition-colors duration-300 counter" data-target="2169">0</h3>
+                            <h3 class="text-4xl md:text-5xl font-bold text-blue-900 transition-colors duration-300 counter" data-target="{{$participantCount}}">0</h3>
                             <p class="text-sm mt-2 transition-colors duration-300">Peserta ECP</p>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
                     <!-- Jumlah Berhasil Ekspor -->
                     <div class="group cursor-pointer stats-card w-full md:w-1/3" onclick="handleClick('berhasil-ekspor')">
                         <div class="bg-white py-12 px-6 mx-2 md:mx-2 rounded-2xl group-hover:bg-blue-900 transition-colors duration-300">
-                            <h3 class="text-4xl md:text-5xl font-bold text-blue-900 group-hover:text-white transition-colors duration-300 counter" data-target="562">0</h3>
+                            <h3 class="text-4xl md:text-5xl font-bold text-blue-900 group-hover:text-white transition-colors duration-300 counter" data-target="{{ count($company) }}">0</h3>
                             <p class="text-sm mt-2 group-hover:text-white transition-colors duration-300">Jumlah Berhasil Ekspor</p>
                         </div>
                     </div>
@@ -264,7 +264,7 @@
     </section>
 
         <!-- Carousel Section -->
-        <section class="py-10 bg-white">
+        {{-- <section class="py-10 bg-white">
             <div class="container mx-auto px-4 bg-white">
                 <h2 class="text-xl md:text-2xl font-bold text-center mb-6">Dokumentasi Kegiatan ECP</h2>
                 <div class="relative overflow-hidden">
@@ -287,8 +287,40 @@
                     </div>
                 </div>
             </div>
-        </section>
-
+        </section> --}}
+        <div id="companyExportModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[80vh] flex flex-col">
+                <div class="flex justify-between items-center border-b p-4">
+                    <h3 class="text-xl font-bold text-blue-900">Data Perusahaan Berhasil Ekspor</h3>
+                    <button id="closeExportModal" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="overflow-auto p-4 flex-grow">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Perusahaan</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Produk</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wilayah ECP</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tahun</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200" id="companyTableBody">
+                                <!-- Data will be inserted here dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="border-t p-4 flex justify-end">
+                    <button id="closeModalButton" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Tutup</button>
+                </div>
+            </div>
+        </div>
         <!-- Related Events Section -->
         <section class="py-10 bg-gray-100">
             <div class="container mx-auto px-4">
@@ -508,6 +540,78 @@
                 confirmationModal.classList.add('hidden');
             }
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+        // Get the company data from PHP
+        const companyData = @json($company);
+        
+        // Modal elements
+        const companyExportModal = document.getElementById('companyExportModal');
+        const closeExportModal = document.getElementById('closeExportModal');
+        const closeModalButton = document.getElementById('closeModalButton');
+        const companyTableBody = document.getElementById('companyTableBody');
+        
+        // Get the stats card for "Jumlah Berhasil Ekspor"
+        const statsCards = document.querySelectorAll('.stats-card');
+        const berhasilEksporCard = Array.from(statsCards).find(card => 
+            card.getAttribute('onclick') === "handleClick('berhasil-ekspor')");
+        
+        // Update the handleClick function to show modal for 'berhasil-ekspor'
+        function handleClick(section) {
+            console.log(`Section clicked: ${section}`);
+            if (section === 'berhasil-ekspor') {
+                showCompanyExportModal();
+            }
+            // You can keep other click handling logic here
+        }
+        
+        // Override the global handleClick function
+        window.handleClick = handleClick;
+        
+        // Add direct click event to the card
+        if (berhasilEksporCard) {
+            berhasilEksporCard.addEventListener('click', function() {
+                showCompanyExportModal();
+            });
+        }
+        
+        function showCompanyExportModal() {
+            // Clear existing table data
+            companyTableBody.innerHTML = '';
+            
+            // Populate table with company data
+            companyData.forEach((company, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${index + 1}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${company.nama_perusahaan}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${company.produk}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${company.wilayah_ecp}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${company.tahun}</td>
+                `;
+                companyTableBody.appendChild(row);
+            });
+            
+            // Show the modal
+            companyExportModal.classList.remove('hidden');
+        }
+        
+        // Close modal events
+        closeExportModal.addEventListener('click', function() {
+            companyExportModal.classList.add('hidden');
+        });
+        
+        closeModalButton.addEventListener('click', function() {
+            companyExportModal.classList.add('hidden');
+        });
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target === companyExportModal) {
+                companyExportModal.classList.add('hidden');
+            }
+        });
+    });
     </script>
 </body>
 

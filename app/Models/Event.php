@@ -12,7 +12,8 @@ class Event extends Model
         'date',
         'image',
         'location',
-        'location_url'
+        'location_url',
+        'angkatan_ecp'
     ];
 
    
@@ -20,5 +21,10 @@ class Event extends Model
     public function participants()
 {
     return $this->belongsToMany(User::class, 'event_participants', 'event_id', 'user_id');
+}
+
+public function company()
+{
+    return $this->hasMany(CompanyExport::class, 'event_id', 'id');
 }
 }

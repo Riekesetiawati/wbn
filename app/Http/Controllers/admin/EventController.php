@@ -6,8 +6,10 @@ use App\Models\User;
 use App\Models\Event;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\CompanyExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class EventController extends Controller
 {
@@ -41,6 +43,7 @@ class EventController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'location' => 'required|string|max:255',
             'location_url' => 'required|url',
+            'angkatan_ecp' => 'required|integer',
         ]);
 
         // Upload dan simpan gambar
@@ -75,6 +78,7 @@ class EventController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'location' => 'required|string|max:255',
             'location_url' => 'required|url',
+            'angkatan_ecp' => 'required|integer',
         ]);
 
         // Update gambar jika ada

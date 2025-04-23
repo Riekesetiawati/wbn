@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('image');
             $table->string('location');
             $table->text('location_url');
+            $table->integer('angkatan_ecp')->default(0);
             $table->timestamps();
         });
     }
