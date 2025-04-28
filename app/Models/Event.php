@@ -12,7 +12,6 @@ class Event extends Model
         'date',
         'image',
         'location',
-        'location_url',
         'angkatan_ecp'
     ];
 

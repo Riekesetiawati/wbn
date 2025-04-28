@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nama_perusahaan');
             $table->string('produk');
             $table->string('wilayah_ecp');
-            $table->intiger('tahun');
+            $table->integer('tahun');
             $table->unsignedBigInteger('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->timestamps();

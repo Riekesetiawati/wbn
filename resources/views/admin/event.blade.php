@@ -3,9 +3,9 @@
 @section('content')
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2><i class="fas fa-calendar-alt"></i> Manajemen Event</h2>
+        <h2><i class="fas fa-calendar-alt"></i> Manajemen Webinar</h2>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEventModal">
-            <i class="fas fa-plus"></i> Tambah Event Baru
+            <i class="fas fa-plus"></i> Tambah Webinar Baru
         </button>
     </div>
     
@@ -73,7 +73,6 @@
                                     data-description="{{ $event->description }}"
                                     data-date="{{ \Carbon\Carbon::parse($event->date)->format('F d, Y') }}"
                                     data-location="{{ $event->location }}"
-                                    data-location-url="{{ $event->location_url }}"
                                     data-angkatan-ecp="{{ $event->angkatan_ecp }}"
                                     data-image="{{ asset('storage/' . $event->image) }}">
                                     <i class="fas fa-eye"></i>
@@ -84,7 +83,6 @@
                                     data-description="{{ $event->description }}"
                                     data-date="{{ $event->date }}"
                                     data-location="{{ $event->location }}"
-                                    data-location-url="{{ $event->location_url }}"
                                     data-angkatan-ecp="{{ $event->angkatan_ecp }}"
                                     data-image="{{ asset('storage/' . $event->image) }}">
                                     <i class="fas fa-edit"></i>
@@ -154,14 +152,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="location_url_input" class="form-label">URL Lokasi (Paste kode iframe Google Maps)</label>
-                        <textarea class="form-control @error('location_url') is-invalid @enderror" id="location_url_input" rows="4" placeholder="Tempel kode iframe dari Google Maps"></textarea>
-                        <input type="hidden" name="location_url" id="location_url_hidden" value="{{ old('location_url') }}">
-                        @error('location_url')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                   
                     <div class="mb-3">
                         <label for="angkatan_ecp" class="form-label">Angkatan ECP</label>
                         <input type="number" name="angkatan_ecp" class="form-control" id="angkatan_ecp" value="{{ old('angkatan_ecp') }}">
@@ -206,10 +197,7 @@
                     <div><i class="fas fa-users"></i> Angkatan ECP: <span id="view_angkatan_ecp"></span></div>
                 </div>
                 <div id="view_description"></div>
-                <div class="mt-3">
-                    <label class="form-label">Peta Lokasi:</label>
-                    <iframe id="view_location_map" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
+               
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -260,14 +248,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="edit_location_url_input" class="form-label">URL Lokasi (Paste kode iframe Google Maps)</label>
-                        <textarea class="form-control @error('location_url') is-invalid @enderror" id="edit_location_url_input" rows="4" placeholder="Tempel kode iframe dari Google Maps"></textarea>
-                        <input type="hidden" name="location_url" id="edit_location_url_hidden">
-                        @error('location_url')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
+                   
                     <div class="mb-3">
                         <label for="edit_angkatan_ecp" class="form-label">Angkatan ECP</label>
                         <input type="number" name="angkatan_ecp" class="form-control" id="edit_angkatan_ecp">
@@ -341,33 +322,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Modal Tambah Event: Ekstrak URL saat input iframe berubah
-    const locationUrlInput = document.getElementById('location_url_input');
-    const locationUrlHidden = document.getElementById('location_url_hidden');
-    if (locationUrlInput && locationUrlHidden) {
-        locationUrlInput.addEventListener('input', function() {
-            const iframeCode = this.value;
-            const src = extractIframeSrc(iframeCode);
-            locationUrlHidden.value = src;
-            if (iframeCode && !src) {
-                alert('Kode iframe tidak valid. Harap masukkan kode iframe dari Google Maps.');
-            }
-        });
-    }
-
-    // Modal Edit Event: Ekstrak URL saat input iframe berubah
-    const editLocationUrlInput = document.getElementById('edit_location_url_input');
-    const editLocationUrlHidden = document.getElementById('edit_location_url_hidden');
-    if (editLocationUrlInput && editLocationUrlHidden) {
-        editLocationUrlInput.addEventListener('input', function() {
-            const iframeCode = this.value;
-            const src = extractIframeSrc(iframeCode);
-            editLocationUrlHidden.value = src;
-            if (iframeCode && !src) {
-                alert('Kode iframe tidak valid. Harap masukkan kode iframe dari Google Maps.');
-            }
-        });
-    }
 
     // Lihat Event
     const viewEventBtns = document.querySelectorAll('.view-event');
@@ -410,8 +364,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('edit_date').value = date;
             document.getElementById('edit_location').value = location;
             document.getElementById('edit_angkatan_ecp').value = angkatanEcp;
-            document.getElementById('edit_location_url_input').value = locationUrl ? `<iframe src="${locationUrl}"></iframe>` : '';
-            document.getElementById('edit_location_url_hidden').value = locationUrl;
             document.getElementById('current_image').src = image;
         });
     });

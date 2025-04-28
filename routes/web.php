@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
@@ -15,6 +16,14 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/event/{event}', [EventController::class, 'show'])->name('events.show')->middleware('auth');
 Route::post('/register-event', [ParticipantController::class, "registerEvent"])->middleware('auth')->name('register.event');
 Route::get('/article/{article}', [ArticleController::class, 'index'])->name('article');
+
+Route::get('/profile', [App\Http\Controllers\AuthController::class, 'profile'])
+    ->name('profile')
+    ->middleware('auth');
+
+Route::put('/profile/update', [App\Http\Controllers\AuthController::class, 'updateProfile'])
+    ->name('profile.update')
+    ->middleware('auth');
 
 Route::prefix('admin')->middleware(AdminMiddleware::class)->group(function () {
     Route::get('/event', [AdminEventController::class, 'index'])->name('admin.event.index');
@@ -37,6 +46,10 @@ Route::prefix('admin')->middleware(AdminMiddleware::class)->group(function () {
     Route::get('/article/{article}/edit', [AdminArticleController::class, 'edit'])->name('admin.article.edit');
     Route::put('/article/{article}', [AdminArticleController::class, 'update'])->name('admin.article.update');
     Route::delete('/article/{article}', [AdminArticleController::class, 'destroy'])->name('admin.article.destroy');
+
+    Route::get('/profile', function(){
+        $user = Auth::user();
+        return view('admin.profile', compact('user'));    });
 
 });
 

@@ -39,13 +39,18 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.event.index') }}">
                             <i class="fas fa-home me-2"></i>
-                            <span>Event</span>
+                            <span>Webinar</span>
                         </a>
                     </li>      
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('admin.article.index') }}">
                             <i class="fas fa-book me-2"></i>
                             <span>Article</span>
+                        </a>
+                    </li>          
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/profile">
+                            <i class="fas fa-id-card"></i>                            <span>Profile</span>
                         </a>
                     </li>          
                 </ul>     

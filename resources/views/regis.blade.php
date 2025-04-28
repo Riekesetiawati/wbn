@@ -72,6 +72,57 @@
                             @enderror
                         </div>
                         <div>
+                            <label for="kelamin" class="block text-gray-600 mb-2">Jenis Kelamin</label>
+                            <select id="kelamin" name="kelamin" class="w-full p-3 border @error('kelamin') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                                <option value="">Pilih Jenis Kelamin</option>
+                                <option value="Laki-laki" {{ old('kelamin') == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                                <option value="Perempuan" {{ old('kelamin') == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
+                            </select>
+                            @error('kelamin')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label for="ttl" class="block text-gray-600 mb-2">Tanggal Lahir</label>
+                            <input type="date" id="ttl" name="ttl" value="{{ old('ttl') }}" class="w-full p-3 border @error('ttl') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('ttl')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label for="provinsi" class="block text-gray-600 mb-2">Provinsi</label>
+                            <input type="text" id="provinsi" name="provinsi" value="{{ old('provinsi') }}" placeholder="Masukkan provinsi Anda" class="w-full p-3 border @error('provinsi') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('provinsi')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label for="kota" class="block text-gray-600 mb-2">Kota</label>
+                            <input type="text" id="kota" name="kota" value="{{ old('kota') }}" placeholder="Masukkan kota Anda" class="w-full p-3 border @error('kota') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('kota')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label for="kodepos" class="block text-gray-600 mb-2">Kode Pos</label>
+                            <input type="text" id="kodepos" name="kodepos" value="{{ old('kodepos') }}" placeholder="Masukkan kode pos Anda" class="w-full p-3 border @error('kodepos') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('kodepos')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        
+                        <div>
+                            <label for="jabatan" class="block text-gray-600 mb-2">Jabatan</label>
+                            <input type="text" id="jabatan" name="jabatan" value="{{ old('jabatan') }}" placeholder="Masukkan jabatan Anda" class="w-full p-3 border @error('jabatan') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
+                            @error('jabatan')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
+                        </div>
+                        <div>
                             <label for="password" class="block text-gray-600 mb-2">Kata Sandi</label>
                             <input type="password" id="password" name="password" placeholder="Masukkan kata sandi Anda" class="w-full p-3 border @error('password') border-red-500 @else border-gray-300 @enderror rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600">
                             @error('password')

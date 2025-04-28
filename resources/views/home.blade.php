@@ -37,6 +37,9 @@
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
                 Logout
+                <a href="{{ url('/profile') }}" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">
+                    <i class="fas fa-user-circle mr-1"></i> Profile
+                </a>
             </a>
             @else
             <a href="/login"

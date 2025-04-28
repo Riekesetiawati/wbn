@@ -35,6 +35,9 @@
                     </svg>
                     Logout
                 </a>
+                <a href="{{ url('/profile') }}" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">
+                    <i class="fas fa-user-circle mr-1"></i> Profile
+                </a>
                 @else
                 <a href="/login" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white font-medium rounded-full shadow hover:bg-blue-700 hover:shadow-lg transition duration-300 ease-in-out">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -351,18 +354,7 @@
                 </div>
             </div>
             <!-- Location Map -->
-            <div class="mt-10 px-32">
-                    <h2 class="text-2xl font-semibold mb-5 text-blue-800">Lokasi Event</h2>
-                    <div id="map" class="w-full h-64 md:h-96 rounded-lg shadow-md overflow-hidden">
-                        @if($event->location_url)
-                        <iframe src="{{ $event->location_url }}" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                        @else
-                        <div class="flex items-center justify-center h-full bg-gray-200">
-                            <p class="text-gray-500">Lokasi event belum tersedia</p>
-                        </div>
-                        @endif
-                    </div>
-                </div>
+            
         </section>
     </main>
 

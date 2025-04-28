@@ -22,9 +22,14 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'phone'
+        'phone',
+        'provinsi',
+        'kelamin',
+        'ttl',
+        'kota',
+        'kodepos',
+        'jabatan'
     ];
-
     public function events()
 {
     return $this->belongsToMany(Event::class, 'event_participants', 'user_id', 'event_id')
