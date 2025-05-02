@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -7,8 +8,30 @@
     <title>{{ $event->title }} - Export Coaching Program</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin=""/>
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
     <!-- Maps API -->
     <script src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&callback=initMap" async defer></script>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 0.5rem;
+        }
+        .carousel {
+            display: flex;
+            overflow-x: hidden;
+        }
+        .carousel-item {
+            transition: transform 0.5s ease-in-out;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-100 font-sans">
@@ -266,31 +289,59 @@
         </div>
     </section>
 
-        <!-- Carousel Section -->
-        {{-- <section class="py-10 bg-white">
-            <div class="container mx-auto px-4 bg-white">
-                <h2 class="text-xl md:text-2xl font-bold text-center mb-6">Dokumentasi Kegiatan ECP</h2>
-                <div class="relative overflow-hidden">
-                    <div class="carousel flex transition-transform duration-500 ease-in-out" id="carousel">
-                        <div class="carousel-item flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3">
-                            <img src="{{ asset('assets/doc.png') }}" alt="Documentation 1" class="w-full h-48 object-cover rounded-lg">
-                        </div>
-                        <div class="carousel-item flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3">
-                            <img src="{{ asset('assets/doc.png') }}" alt="Documentation 2" class="w-full h-48 object-cover rounded-lg">
-                        </div>
-                        <div class="carousel-item flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3">
-                            <img src="{{ asset('assets/doc.png') }}" alt="Documentation 3" class="w-full h-48 object-cover rounded-lg">
-                        </div>
-                        <div class="carousel-item flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3">
-                            <img src="{{ asset('assets/doc.png') }}" alt="Documentation 4" class="w-full h-48 object-cover rounded-lg">
-                        </div>
-                        <div class="carousel-item flex-shrink-0 w-full sm:w-1/2 md:w-1/3 lg:w-1/4 px-3">
-                            <img src="{{ asset('assets/doc.png') }}" alt="Documentation 5" class="w-full h-48 object-cover rounded-lg">
-                        </div>
-                    </div>
-                </div>
+        <!-- Location Map Section -->
+        <section class="py-10 bg-white">
+            <div class="container mx-auto px-4">
+                <h2 class="text-2xl font-bold text-center mb-6">Sebaran Wilayah ECP (Export Coaching Program)</h2>
+                <div id="map" class="shadow-lg"></div>
             </div>
-        </section> --}}
+        </section>
+
+        <!-- Map Script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var map = L.map('map').setView([-2.5489, 118.0149], 5);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+                
+                var locations = [
+                    {name: "Aceh", lat: 4.6951, lng: 96.7494, peserta: 30},
+                    {name: "Banten", lat: -6.1783, lng: 106.6319, peserta: 130},
+                    {name: "Banyuwangi", lat: -8.2192, lng: 114.3691, peserta: 25},
+                    {name: "DKI Jakarta", lat: -6.2088, lng: 106.8456, peserta: 330},
+                    {name: "Jabodebek", lat: -6.2088, lng: 106.8456, peserta: 30},
+                    {name: "Jambi", lat: -1.4852, lng: 102.4381, peserta: 30},
+                    {name: "Jawa Barat", lat: -6.9175, lng: 107.6191, peserta: 285},
+                    {name: "Jawa Tengah", lat: -7.0246, lng: 110.3636, peserta: 195},
+                    {name: "Jawa Timur", lat: -7.4465, lng: 112.7171, peserta: 210},
+                    {name: "Kabupaten Tangerang", lat: -6.1783, lng: 106.6319, peserta: 25},
+                    {name: "Kalimantan Barat", lat: -0.0263, lng: 109.3425, peserta: 60},
+                    {name: "Kalimantan Selatan", lat: -3.0926, lng: 115.2838, peserta: 30},
+                    {name: "Kalimantan Timur", lat: -0.5387, lng: 116.4194, peserta: 30},
+                    {name: "Kepulauan Riau", lat: 0.1542, lng: 104.5809, peserta: 30},
+                    {name: "Kota Pekalongan", lat: -6.8892, lng: 109.6759, peserta: 20},
+                    {name: "Kota Surakarta", lat: -7.5755, lng: 110.8252, peserta: 30},
+                    {name: "Lampung", lat: -5.4500, lng: 105.2667, peserta: 60},
+                    {name: "Malang", lat: -7.9666, lng: 112.6326, peserta: 30},
+                    {name: "Nusa Tenggara Barat", lat: -8.6529, lng: 117.3616, peserta: 60},
+                    {name: "Purwokerto (Jawa Tengah)", lat: -7.4244, lng: 109.2396, peserta: 30},
+                    {name: "Riau", lat: 0.5071, lng: 101.4478, peserta: 30},
+                    {name: "Semarang (Jawa Tengah)", lat: -6.9667, lng: 110.4167, peserta: 30},
+                    {name: "Sulawesi Selatan", lat: -5.1477, lng: 119.4327, peserta: 90},
+                    {name: "Sulawesi Utara", lat: 1.4748, lng: 124.8428, peserta: 60},
+                    {name: "Sumatera Barat", lat: -0.9471, lng: 100.4172, peserta: 60},
+                    {name: "Sumatera Utara", lat: 3.5952, lng: 98.6722, peserta: 30},
+                    {name: "Yogyakarta", lat: -7.7956, lng: 110.3695, peserta: 190}
+                ];
+                
+                locations.forEach(function(location) {
+                    var marker = L.marker([location.lat, location.lng]).addTo(map);
+                    marker.bindPopup("<b>" + location.name + "</b><br>Peserta: " + location.peserta);
+                });
+            });
+        </script>
+
         <div id="companyExportModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[80vh] flex flex-col">
                 <div class="flex justify-between items-center border-b p-4">
