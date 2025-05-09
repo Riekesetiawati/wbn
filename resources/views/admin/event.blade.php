@@ -30,7 +30,7 @@
     <!-- Daftar Event -->
     <div class="card">
         <div class="card-header bg-white">
-            <h5 class="mb-0">Semua Event</h5>
+            <h5 class="mb-0">Semua Webinar</h5>
         </div>
         <div class="card-body">
             @if(session('success'))
@@ -48,7 +48,7 @@
                             <th>Judul</th>
                             <th>Tanggal</th>
                             <th>Lokasi</th>
-                            <th>Angkatan ECP</th>
+                            <th>Pembicara</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -73,7 +73,7 @@
                                     data-description="{{ $event->description }}"
                                     data-date="{{ \Carbon\Carbon::parse($event->date)->format('F d, Y') }}"
                                     data-location="{{ $event->location }}"
-                                    data-angkatan-ecp="{{ $event->angkatan_ecp }}"
+                                    data-angkatan-ecp="{{ $event->pembicara }}"
                                     data-image="{{ asset('storage/' . $event->image) }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
@@ -83,7 +83,7 @@
                                     data-description="{{ $event->description }}"
                                     data-date="{{ $event->date }}"
                                     data-location="{{ $event->location }}"
-                                    data-angkatan-ecp="{{ $event->angkatan_ecp }}"
+                                    data-angkatan-ecp="{{ $event->pembicara }}"
                                     data-image="{{ asset('storage/' . $event->image) }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -116,7 +116,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addEventModalLabel">Tambah Event Baru</h5>
+                <h5 class="modal-title" id="addEventModalLabel">Tambah Jadwal Webinar </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -154,23 +154,23 @@
                     </div>
                    
                     <div class="mb-3">
-                        <label for="angkatan_ecp" class="form-label">Angkatan ECP</label>
+                        <label for="angkatan_ecp" class="form-label">Pembicara</label>
                         <input type="number" name="angkatan_ecp" class="form-control" id="angkatan_ecp" value="{{ old('angkatan_ecp') }}">
-                        @error('angkatan_ecp')
+                        @error('pembicara')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="image" class="form-label">Gambar Event</label>
+                        <label for="image" class="form-label">Gambar </label>
                         <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image" required>
-                        <div class="form-text">Unggah gambar untuk event (ukuran disarankan: 1200x600px)</div>
+                        <div class="form-text">Unggah gambar untuk (ukuran disarankan: 1200x600px)</div>
                         @error('image')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Simpan Event</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
                 </form>
             </div>
@@ -183,7 +183,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="viewEventModalLabel">Detail Event</h5>
+                <h5 class="modal-title" id="viewEventModalLabel">Detail Webinar</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -194,7 +194,7 @@
                 <div class="d-flex my-3">
                     <div class="me-4"><i class="far fa-calendar-alt"></i> <span id="view_date"></span></div>
                     <div class="me-4"><i class="fas fa-map-marker-alt"></i> <span id="view_location"></span></div>
-                    <div><i class="fas fa-users"></i> Angkatan ECP: <span id="view_angkatan_ecp"></span></div>
+                    <div><i class="fas fa-users"></i> Pembicara: <span id="view_pembicara"></span></div>
                 </div>
                 <div id="view_description"></div>
                
@@ -211,7 +211,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editEventModalLabel">Edit Event</h5>
+                <h5 class="modal-title" id="editEventModalLabel">Edit </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -250,14 +250,14 @@
                     </div>
                    
                     <div class="mb-3">
-                        <label for="edit_angkatan_ecp" class="form-label">Angkatan ECP</label>
+                        <label for="edit_angkatan_ecp" class="form-label">Pembicara</label>
                         <input type="number" name="angkatan_ecp" class="form-control" id="edit_angkatan_ecp">
-                        @error('angkatan_ecp')
+                        @error('pembicara')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="mb-3">
-                        <label for="edit_image" class="form-label">Gambar Event</label>
+                        <label for="edit_image" class="form-label">Gambar</label>
                         <div class="mb-2">
                             <img id="current_image" src="" alt="Gambar Saat Ini" class="img-thumbnail" style="max-height: 200px;">
                         </div>
@@ -269,7 +269,7 @@
                     </div>
                     <div class="d-flex justify-content-end">
                         <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Perbarui Event</button>
+                        <button type="submit" class="btn btn-primary">Perbarui jadwak webinar</button>
                     </div>
                 </form>
             </div>
@@ -286,7 +286,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus event "<strong id="delete_title"></strong>"?</p>
+                <p>Apakah Anda yakin ingin menghapus jadwal webinar ini "<strong id="delete_title"></strong>"?</p>
                 <p class="text-danger">Tindakan ini tidak dapat dibatalkan.</p>
             </div>
             <div class="modal-footer">
@@ -294,7 +294,7 @@
                 <form id="deleteEventForm" action="" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Hapus Event</button>
+                    <button type="submit" class="btn btn-danger">Hapus Webinar</button>
                 </form>
             </div>
         </div>

@@ -12,7 +12,7 @@ class Event extends Model
         'date',
         'image',
         'location',
-        'angkatan_ecp'
+        'pembicara'
     ];
 
    

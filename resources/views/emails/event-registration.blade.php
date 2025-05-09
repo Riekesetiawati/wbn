@@ -57,7 +57,7 @@
     <div class="content">
         <p>Halo <strong>{{ $user->name }}</strong>,</p>
         
-        <p>Wow! Kami sangat bersemangat menyambut kehadiranmu di event kami. Bersiaplah untuk pengalaman luar biasa yang akan mengubah perspektifmu!</p>
+        <p>Wow! Kami sangat bersemangat menyambut kehadiranmu di Webinar kami. Bersiaplah untuk pengalaman luar biasa yang akan mengubah perspektifmu!</p>
         
         <div class="event-details">
             <h2>{{ $event->name }}</h2>
@@ -76,10 +76,10 @@
         <p>Kami telah menyimpan tempat istimewa untukmu. Pastikan untuk menyimpan email ini sebagai bukti registrasimu.</p>
         
         <center>
-            <a href="{{ url('/event/'.$event->id) }}" class="btn">LIHAT DETAIL EVENT</a>
+            <a href="{{ url('/event/'.$event->id) }}" class="btn">LIHAT DETAIL WEBINAR</a>
         </center>
         
-        <p style="margin-top: 30px;">Sampai jumpa di event! Kami tidak sabar untuk melihatmu bersinar!</p>
+        <p style="margin-top: 30px;">Sampai jumpa di Webinar PPEJP! Ekspor pengetahuan ekspormu bersama kami!</p>
         
         <p>Salam Hangat,<br>
         Tim {{ config('app.name') }}</p>

@@ -57,7 +57,7 @@ class EventController extends Controller
         Event::create($validated);
 
         return redirect()->route('admin.event.index')
-            ->with('success', 'Event berhasil dibuat!');
+            ->with('success', 'Webinar berhasil dibuat!');
     }
 
     
@@ -97,7 +97,7 @@ class EventController extends Controller
         $event->update($validated);
 
         return redirect()->route('admin.event.index')
-            ->with('success', 'Event berhasil diperbarui!');
+            ->with('success', 'Webinar berhasil diperbarui!');
     }
 
   
@@ -112,7 +112,7 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->route('admin.event.index')
-            ->with('success', 'Event berhasil dihapus!');
+            ->with('success', 'Webinar berhasil dihapus!');
     }
 
     public function showParticipants($event_id)
