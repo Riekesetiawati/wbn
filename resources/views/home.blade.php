@@ -27,7 +27,7 @@
                 class="hidden md:flex md:items-center md:space-x-4 absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent shadow-md md:shadow-none p-4 md:p-0">
                 <a href="#home" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Beranda</a>
                 <a href="#about" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Tentang Kami</a>
-                <a href="#articles" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Artikel</a>
+                <a href="#articles" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Export Coaching Program</a>
                 <a href="#contact" class="block md:inline text-gray-600 hover:text-blue-600 py-2 md:py-0">Kontak</a>
                 @if (Auth::check())
                 <a href="/logout"
@@ -153,7 +153,8 @@
                     <img src="{{ asset('storage/'. $event->image) }}" alt="{{ $event->title }}" class="w-full h-48 object-cover rounded-lg mb-4">
                     <h3 class="text-xl font-semibold text-gray-800 mb-2">{{ $event->title }}</h3>
                     <p class="text-gray-600 mb-4">{{ $event->description }}</p>
-                    <p class="text-blue-600 font-semibold">{{ date('d F Y', strtotime($event->date)) }} | {{ $event->location }}</p>
+                    <p class="text-gray-600 mb-4">{{ $event->pembicara }}</p>
+                    <p class="text-blue-600 font-semibold">{{ date('d F Y', strtotime($event->date)) }} | Zoom Meeting</p>
                     <a href="{{ route('events.show', $event->id) }}" class="inline-block mt-4 text-blue-600 hover:underline">Daftar Sekarang</a>                </div>
                 @endforeach
             </div>

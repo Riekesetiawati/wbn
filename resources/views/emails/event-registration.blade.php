@@ -51,7 +51,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>✨ PETUALANGAN BARU MENANTI! ✨</h1>
+        <h1>✨ HALO SOBAT EKSPOR! ✨</h1>
     </div>
     
     <div class="content">
@@ -63,6 +63,7 @@
             <h2>{{ $event->name }}</h2>
             <p><strong>Tanggal:</strong> {{ \Carbon\Carbon::parse($event->date)->format('d F Y') }}</p>
             <p><strong>Lokasi:</strong> {{ $event->location }}</p>
+            <p><strong>Pembicara:</strong> {{ $event->pembicara}}
         </div>
         
         <p>Bersiaplah untuk:</p>

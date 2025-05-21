@@ -41,8 +41,8 @@ class EventController extends Controller
             'description' => 'required|string',
             'date' => 'required|date',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'location' => 'required|string|max:255',
-            'angkatan_ecp' => 'required|integer',
+            'location' => 'required|string',
+            'pembicara' => 'required|string',
         ]);
 
         // Upload dan simpan gambar
@@ -75,8 +75,8 @@ class EventController extends Controller
             'description' => 'required|string',
             'date' => 'required|date',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'location' => 'required|string|max:255',
-            'angkatan_ecp' => 'required|integer',
+            'location' => 'required|string',
+            'pembicara' => 'required|string',
         ]);
 
         // Update gambar jika ada

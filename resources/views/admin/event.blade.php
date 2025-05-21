@@ -59,7 +59,7 @@
                             <td>{{ $event->title }}</td>
                             <td>{{ \Carbon\Carbon::parse($event->date)->format('Y-m-d') }}</td>
                             <td>{{ $event->location }}</td>
-                            <td>{{ $event->angkatan_ecp }}</td>
+                            <td>{{ $event->pembicara }}</td>
                             <td>
                                 <a href="{{ route('admin.company.index', $event->id) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-building"></i>
@@ -73,7 +73,7 @@
                                     data-description="{{ $event->description }}"
                                     data-date="{{ \Carbon\Carbon::parse($event->date)->format('F d, Y') }}"
                                     data-location="{{ $event->location }}"
-                                    data-angkatan-ecp="{{ $event->pembicara }}"
+                                    data-pembicara="{{ $event->pembiacara }}"
                                     data-image="{{ asset('storage/' . $event->image) }}">
                                     <i class="fas fa-eye"></i>
                                 </button>
@@ -83,7 +83,7 @@
                                     data-description="{{ $event->description }}"
                                     data-date="{{ $event->date }}"
                                     data-location="{{ $event->location }}"
-                                    data-angkatan-ecp="{{ $event->pembicara }}"
+                                    data-pembicara="{{ $event->pembicara }}"
                                     data-image="{{ asset('storage/' . $event->image) }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
@@ -154,8 +154,8 @@
                     </div>
                    
                     <div class="mb-3">
-                        <label for="angkatan_ecp" class="form-label">Pembicara</label>
-                        <input type="number" name="angkatan_ecp" class="form-control" id="angkatan_ecp" value="{{ old('angkatan_ecp') }}">
+                        <label for="pembicara" class="form-label">Pembicara</label>
+                        <input type="text" name="pembicara" class="form-control" id="pembicara" value="{{ old('pembicara') }}">
                         @error('pembicara')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -250,12 +250,13 @@
                     </div>
                    
                     <div class="mb-3">
-                        <label for="edit_angkatan_ecp" class="form-label">Pembicara</label>
-                        <input type="number" name="angkatan_ecp" class="form-control" id="edit_angkatan_ecp">
+                        <label for="pembicara" class="form-label">Pembicara</label>
+                        <input type="text" name="pembicara" class="form-control" id="pembicara" value="{{ old('pembicara') }}">
                         @error('pembicara')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="mb-3">
                         <label for="edit_image" class="form-label">Gambar</label>
                         <div class="mb-2">
@@ -332,13 +333,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const date = this.getAttribute('data-date');
             const location = this.getAttribute('data-location');
             const locationUrl = this.getAttribute('data-location-url');
-            const angkatanEcp = this.getAttribute('data-angkatan-ecp');
+            const pembicara = this.getAttribute('data-pembicara');
             const image = this.getAttribute('data-image');
             
             document.getElementById('view_title').textContent = title;
             document.getElementById('view_date').textContent = date;
             document.getElementById('view_location').textContent = location;
-            document.getElementById('view_angkatan_ecp').textContent = angkatanEcp;
+            document.getElementById('view_pembicara').textContent = pembicara;
             document.getElementById('view_description').innerHTML = description;
             document.getElementById('view_image').src = image;
             document.getElementById('view_location_map').src = locationUrl || '';
@@ -355,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const date = this.getAttribute('data-date');
             const location = this.getAttribute('data-location');
             const locationUrl = this.getAttribute('data-location-url');
-            const angkatanEcp = this.getAttribute('data-angkatan-ecp');
+            const pembicara = this.getAttribute('data-pembicara');
             const image = this.getAttribute('data-image');
             
             document.getElementById('editEventForm').action = `/admin/event/${id}`;
@@ -363,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('edit_description').value = description;
             document.getElementById('edit_date').value = date;
             document.getElementById('edit_location').value = location;
-            document.getElementById('edit_angkatan_ecp').value = angkatanEcp;
+            document.getElementById('edit_pembicara').value = pembicara;
             document.getElementById('current_image').src = image;
         });
     });

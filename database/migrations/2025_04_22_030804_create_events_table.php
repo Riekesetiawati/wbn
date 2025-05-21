@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->string('image');
             $table->string('location');
-            $table->integer('angkatan_ecp')->default(0);
+            $table->string('pembicara');
             $table->timestamps();
         });
     }
